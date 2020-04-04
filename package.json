@@ -15,6 +15,7 @@
     "@types/reactstrap": "^8.4.2",
     "bootstrap": "^4.4.1",
     "chart.js": "^2.9.3",
+    "concurrently": "^5.1.0",
     "express": "^4.17.1",
     "node-sass": "^4.13.1",
     "react": "^16.13.1",
@@ -26,11 +27,11 @@
     "typescript": "^3.7.5"
   },
   "scripts": {
-    "start": "node server/server.js",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "client-install": "npm install --prefix client",
+    "start": "node index.js",
+    "server": "nodemon index.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "homepage": ".",
   "eslintConfig": {
