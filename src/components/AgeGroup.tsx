@@ -65,10 +65,10 @@ const AgeGroup: React.FunctionComponent<TotalData> = ({ totalData }) => {
     <TitledSection title="Age group">
       <Doughnut
         data={data}
-        width={500}
+        width={400}
         height={400}
         options={{
-          responsive: false,
+          responsive: true,
           maintainAspectRatio: true,
           legend: {
             display: true,

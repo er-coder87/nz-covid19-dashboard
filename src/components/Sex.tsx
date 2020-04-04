@@ -31,17 +31,17 @@ const Sex: React.FunctionComponent<TotalData> = ({ totalData }) => {
     ],
 
     // These labels appear in the legend and in the tooltips when hovering different arcs
-    labels: ['Male', 'Female', 'unknown'],
+    labels: ['Male', 'Female', 'Not specified'],
   };
 
   return (
     <TitledSection title="Gender">
       <Doughnut
         data={data}
-        width={500}
+        width={400}
         height={400}
         options={{
-          responsive: false,
+          responsive: true,
           maintainAspectRatio: true,
           legend: {
             display: true,

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { TotalData } from './Sex';
 import { Line } from 'react-chartjs-2';
 import { formatDateToString } from './Overview';
+import { TitledSection } from '../common/TiledSection';
 
 export const TotalCases: React.FunctionComponent<TotalData> = ({ totalData }) => {
   const dates = Array.from(new Set(totalData.map(item => item.dateOfReport)));
@@ -39,36 +40,37 @@ export const TotalCases: React.FunctionComponent<TotalData> = ({ totalData }) =>
     labels: day,
   };
 
-  console.log(totalNumber);
   return (
-    <Line
-      data={data}
-      width={900}
-      height={400}
-      options={{
-        responsive: false,
-        maintainAspectRatio: true,
-        legend: {
-          display: false,
-        },
-        scales: {
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-                fontColor: 'white',
+    <TitledSection title="Total confirmed cases">
+      <Line
+        data={data}
+        width={400}
+        height={400}
+        options={{
+          responsive: true,
+          maintainAspectRatio: true,
+          legend: {
+            display: false,
+          },
+          scales: {
+            yAxes: [
+              {
+                ticks: {
+                  beginAtZero: true,
+                  fontColor: 'white',
+                },
               },
-            },
-          ],
-          xAxes: [
-            {
-              ticks: {
-                fontColor: 'white',
+            ],
+            xAxes: [
+              {
+                ticks: {
+                  fontColor: 'white',
+                },
               },
-            },
-          ],
-        },
-      }}
-    ></Line>
+            ],
+          },
+        }}
+      ></Line>
+    </TitledSection>
   );
 };

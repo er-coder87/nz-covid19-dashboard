@@ -12,8 +12,6 @@ import { TotalCases } from '../components/TotalCases';
 const components: Array<any> = [Overview, Sex, AgeGroup, Dhb, TotalCases];
 
 const Dashboard: React.FunctionComponent = () => {
-  console.log(data);
-
   return (
     <>
       <div className="d-flex flex-wrap">

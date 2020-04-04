@@ -30,7 +30,7 @@ const Dhb: React.FunctionComponent<TotalData> = ({ totalData }) => {
     <TitledSection title="Region">
       <Bar
         data={data}
-        width={500}
+        width={400}
         height={400}
         options={{
           responsive: false,
