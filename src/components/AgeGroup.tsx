@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { TotalData } from './Sex';
 import { Doughnut } from 'react-chartjs-2';
 import { TitledSection } from '../common/TiledSection';
+import { TotalData } from '../containers/Dashboard';
 
 const AgeGroup: React.FunctionComponent<TotalData> = ({ totalData }) => {
   const oneToFour = totalData.filter(a => a.ageGroup === ' 1 to 4  ').length;

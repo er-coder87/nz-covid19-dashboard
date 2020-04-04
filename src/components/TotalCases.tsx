@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { TotalData } from './Sex';
 import { Line } from 'react-chartjs-2';
 import { formatDateToString } from './Overview';
 import { TitledSection } from '../common/TiledSection';
+import { TotalData } from '../containers/Dashboard';
 
 export const TotalCases: React.FunctionComponent<TotalData> = ({ totalData }) => {
   const dates = Array.from(new Set(totalData.map(item => item.dateOfReport)));
@@ -41,7 +41,7 @@ export const TotalCases: React.FunctionComponent<TotalData> = ({ totalData }) =>
   };
 
   return (
-    <TitledSection title="Total confirmed cases">
+    <TitledSection title="Confirmed and probable cases">
       <Line
         data={data}
         width={400}

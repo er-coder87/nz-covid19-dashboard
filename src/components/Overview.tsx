@@ -1,5 +1,6 @@
 import * as React from 'react';
 import data from '../data/data';
+import data_probable from '../data/data_probable';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 
 interface IOverviewProps {}
@@ -18,8 +19,8 @@ export const Overview: React.FunctionComponent<IOverviewProps> = props => {
     <ListGroup>
       <ListGroupItem>Date: {getTodayDate()}</ListGroupItem>
       <ListGroupItem>NZ confirmed cases: {data.length}</ListGroupItem>
-      <ListGroupItem>NZ probable case: 50</ListGroupItem>
-      <ListGroupItem>NZ Total confirmed case: {data.length + 50}</ListGroupItem>
+      <ListGroupItem>NZ probable cases: {data_probable.length}</ListGroupItem>
+      <ListGroupItem>NZ Total cases: {data.length + data_probable.length}</ListGroupItem>
     </ListGroup>
   );
 };

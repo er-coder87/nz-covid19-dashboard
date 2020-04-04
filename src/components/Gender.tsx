@@ -1,23 +1,9 @@
 import * as React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { TitledSection } from '../common/TiledSection';
+import { TotalData } from '../containers/Dashboard';
 
-export interface Data {
-  dateOfReport?: string;
-  sex?: string;
-  ageGroup: string;
-  dhb?: string;
-  internationalTravel?: string;
-  lastCountryBeforeReturn?: string;
-  flightNumber?: string;
-  arrivalDate?: string;
-}
-
-export interface TotalData {
-  totalData: Array<Data>;
-}
-
-const Sex: React.FunctionComponent<TotalData> = ({ totalData }) => {
+const Gender: React.FunctionComponent<TotalData> = ({ totalData }) => {
   const numberOfMales = totalData.filter(a => a.sex === 'Male').length;
   const numberOfFemales = totalData.filter(a => a.sex === 'Female').length;
   const unknowns = totalData.length - numberOfFemales - numberOfMales;
@@ -56,4 +42,4 @@ const Sex: React.FunctionComponent<TotalData> = ({ totalData }) => {
   );
 };
 
-export default Sex;
+export default Gender;

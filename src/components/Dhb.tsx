@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { TotalData } from './Sex';
 import { Bar } from 'react-chartjs-2';
 import { TitledSection } from '../common/TiledSection';
+import { TotalData } from '../containers/Dashboard';
 
 const Dhb: React.FunctionComponent<TotalData> = ({ totalData }) => {
   const areas = Array.from(new Set(totalData.map(item => item.dhb)));

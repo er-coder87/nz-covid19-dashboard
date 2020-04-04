@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { TotalData } from './Sex';
 import { TitledSection } from '../common/TiledSection';
 import { Bar } from 'react-chartjs-2';
+import { TotalData } from '../containers/Dashboard';
 
 export const InternationTravel: React.FunctionComponent<TotalData> = ({ totalData }) => {
   const yes = totalData.filter(a => a.internationalTravel === 'Yes').length;
