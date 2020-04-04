@@ -1,0 +1,12 @@
+// Override default variables before the import
+$body-bg: #282c34;
+$primary: #13b5ea;
+@import '~bootstrap/scss/bootstrap.scss';
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.hoverEffect:hover {
+  opacity: 0.9;
+}
