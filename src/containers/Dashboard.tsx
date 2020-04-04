@@ -8,10 +8,12 @@ import Dhb from '../components/Dhb';
 import { Card } from 'reactstrap';
 import '../App.scss';
 import { TotalCases } from '../components/TotalCases';
+import { InternationTravel } from '../components/InternationalTravel';
 
-const components: Array<any> = [Overview, Sex, AgeGroup, Dhb, TotalCases];
+const components: Array<any> = [Overview, Sex, AgeGroup, Dhb, TotalCases, InternationTravel];
 
 const Dashboard: React.FunctionComponent = () => {
+  console.log(data);
   return (
     <>
       <div className="d-flex flex-wrap">
