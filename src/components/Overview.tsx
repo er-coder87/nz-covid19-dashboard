@@ -20,7 +20,7 @@ export const Overview: React.FunctionComponent<IOverviewProps> = props => {
       <ListGroupItem>Date: {getTodayDate()}</ListGroupItem>
       <ListGroupItem>NZ confirmed cases: {data.length}</ListGroupItem>
       <ListGroupItem>NZ probable cases: {data_probable.length}</ListGroupItem>
-      <ListGroupItem>NZ Total cases: {data.length + data_probable.length}</ListGroupItem>
+      <ListGroupItem>NZ total cases: {data.length + data_probable.length}</ListGroupItem>
     </ListGroup>
   );
 };

@@ -18,7 +18,7 @@ export const InternationTravel: React.FunctionComponent<TotalData> = ({ totalDat
     labels: ['Yes', 'No', 'Unknown'],
   };
   return (
-    <TitledSection title="Internation travels">
+    <TitledSection title="International travels">
       <Bar
         data={data}
         width={400}
