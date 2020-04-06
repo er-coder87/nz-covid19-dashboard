@@ -8,7 +8,10 @@ import '../App.scss';
 import { TotalCases } from '../components/TotalCases';
 import { InternationTravel } from '../components/InternationalTravel';
 import { useState, useEffect } from 'react';
-
+import axios from 'axios';
+const axiosInstance = axios.create({
+  baseURL: 'http://localhost:5000',
+});
 const components: Array<any> = [Overview, Gender, AgeGroup, Dhb, TotalCases, InternationTravel];
 
 export interface Data {
@@ -32,12 +35,10 @@ const Dashboard: React.FunctionComponent = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      await fetch('/api/data')
-        .then(res => res.json())
-        .then(data => {
-          setData(data);
-          setLoading(false);
-        });
+      await axiosInstance.get('/api/data').then(data => {
+        setData(data.data);
+        setLoading(false);
+      });
     };
     fetchData();
   }, []);
