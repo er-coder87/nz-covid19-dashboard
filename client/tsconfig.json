@@ -15,5 +15,5 @@
     "noEmit": true,
     "jsx": "react"
   },
-  "include": ["src", "../server/data/data.ts", "../server/data/data_probable.ts"]
+  "include": ["src"]
 }
