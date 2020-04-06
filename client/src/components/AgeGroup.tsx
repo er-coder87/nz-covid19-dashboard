@@ -4,6 +4,8 @@ import { TitledSection } from '../common/TiledSection';
 import { TotalData } from '../containers/Dashboard';
 
 const AgeGroup: React.FunctionComponent<TotalData> = ({ totalData }) => {
+  console.log(totalData);
+
   const oneToFour = totalData.filter(a => a.ageGroup === ' 1 to 4  ').length;
   const fiveToNine = totalData.filter(a => a.ageGroup === ' 5 to 9  ').length;
   const lowTeens = totalData.filter(a => a.ageGroup === '10 to 14').length;

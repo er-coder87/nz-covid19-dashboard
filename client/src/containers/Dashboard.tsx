@@ -4,7 +4,6 @@ import Gender from '../components/Gender';
 import AgeGroup from '../components/AgeGroup';
 import Dhb from '../components/Dhb';
 import { Card } from 'reactstrap';
-import data from '../data/data';
 import '../App.scss';
 import { TotalCases } from '../components/TotalCases';
 import { InternationTravel } from '../components/InternationalTravel';
