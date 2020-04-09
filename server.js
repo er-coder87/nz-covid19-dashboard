@@ -24,24 +24,9 @@ app.listen(port, () => {
   console.log(`server has started on port ${port}`);
 });
 
-const download = (url, dest, cb) => {
-  var file = fs.createWriteStream(dest);
-  https.get(url, function (response) {
-    response.pipe(file);
-    file.on('finish', function () {
-      file.close(cb);
-    });
-  });
-};
-
-let xlsxName = `covid-casedetails-9april2020.xlsx`;
-// assume lastUpdatedDate is yesterday
-const appStartDate = new Date();
-let lastUpdatedDate = appStartDate.setDate(appStartDate.getDate() - 1);
-
 app.get('/api/data', async (req, res) => {
   try {
-    const workbook = XLSX.readFile(xlsxName);
+    const workbook = XLSX.readFile(currentXlsxName);
     const confirmedCasesSheet = workbook.Sheets[workbook.SheetNames[0]];
     const probableCasesSheet = workbook.Sheets[workbook.SheetNames[1]];
     const confirmedCases = XLSX.utils.sheet_to_json(confirmedCasesSheet, { range: 3, raw: false });
@@ -71,25 +56,36 @@ const months = [
   'november',
   'december',
 ];
-// schedule tasks to be run on the server
-const cron = require('node-cron');
-// schedule tasks to be run on the server
-cron.schedule('0 * * * *', function () {
-  console.log('Running Cron Job');
-  if (!fs.existsSync(xlsxName)) {
-    console.log(xlsxName, 'file does not exist');
 
-    const today = new Date();
-    const formattedToday = today.getDate() + months[today.getMonth()] + today.getFullYear();
+let currentXlsxName = 'covid-casedetails-9april2020.xlsx';
+let lastUpdatedDate = new Date(2020, 3, 9);
+const cron = require('node-cron');
+cron.schedule('* * * * *', function () {
+  console.log('Running Cron Job');
+  const today = new Date();
+  const formattedToday = today.getDate() + months[today.getMonth()] + today.getFullYear();
+  const todayXlsxName = `covid-casedetails-${formattedToday}.xlsx`;
+  if (!fs.existsSync(todayXlsxName)) {
+    console.log('file does not exist');
     console.log(formattedToday);
     download(
       `https://www.health.govt.nz/system/files/documents/pages/covid-casedetails-${formattedToday}.xlsx`,
-      xlsxName,
+      todayXlsxName,
     );
     lastUpdatedDate = today;
-
-    console.log(xlsxName, 'finish downloading');
+    currentXlsxName = todayXlsxName;
+    console.log(todayXlsxName, 'finish downloading');
   } else {
-    console.log('file already exists');
+    console.log(`File ${currentXlsxName} already exists`);
   }
 });
+
+const download = (url, dest, cb) => {
+  var file = fs.createWriteStream(dest);
+  https.get(url, function (response) {
+    response.pipe(file);
+    file.on('finish', function () {
+      file.close(cb);
+    });
+  });
+};
