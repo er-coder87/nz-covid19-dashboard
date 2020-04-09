@@ -53,7 +53,8 @@ app.get('/api/data', async (req, res) => {
     //let worksheet = workbook.Sheets[workbook.SheetNames[0]];
     //const totalData = XLSX.utils.sheet_to_json(worksheet, { raw: false });
 
-    const totalData = [...data, ...data_probable];
+    const dataArray = [...data, ...data_probable];
+    const totalData = [{ dataArray: dataArray }, { updatedDate: '2020-4-6' }];
     res.json(totalData);
   } catch (error) {
     console.log(error);
