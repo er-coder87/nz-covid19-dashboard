@@ -27,8 +27,8 @@ export const Overview: React.FunctionComponent<Props> = ({
     <ListGroupItem>
       Last updated date: {formatDateToString(new Date(JSON.parse(updatedDate)))}
     </ListGroupItem>
-    <ListGroupItem>NZ confirmed cases: {confirmedCases.length}</ListGroupItem>
-    <ListGroupItem>NZ probable cases: {probableCases.length}</ListGroupItem>
-    <ListGroupItem>NZ total cases: {confirmedCases.length + probableCases.length}</ListGroupItem>
+    <ListGroupItem>Confirmed cases: {confirmedCases.length}</ListGroupItem>
+    <ListGroupItem>Probable cases: {probableCases.length}</ListGroupItem>
+    <ListGroupItem>Total cases: {confirmedCases.length + probableCases.length}</ListGroupItem>
   </ListGroup>
 );
