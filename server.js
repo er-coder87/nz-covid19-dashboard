@@ -15,7 +15,7 @@ app.use(express.json());
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 
-  app.get('*', (req, res) => {
+  app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
   });
 }
@@ -26,7 +26,7 @@ app.listen(port, () => {
 
 const download = (url, dest, cb) => {
   var file = fs.createWriteStream(dest);
-  var request = https.get(url, function (response) {
+  https.get(url, function (response) {
     response.pipe(file);
     file.on('finish', function () {
       file.close(cb);
