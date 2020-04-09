@@ -10,7 +10,7 @@ import { InternationTravel } from '../components/InternationalTravel';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: process.env.NODE_ENV === 'production' ? process.env.HOSTNAME : 'http://localhost:5000',
 });
 const components: Array<any> = [Overview, Gender, AgeGroup, Dhb, TotalCases, InternationTravel];
 
