@@ -1,9 +1,15 @@
 import * as React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { TitledSection } from '../common/TiledSection';
-import { TotalData } from '../containers/Dashboard';
+import { Data } from '../containers/Dashboard';
 
-const AgeGroup: React.FunctionComponent<TotalData> = ({ totalData }) => {
+interface Props {
+  confirmedCases: Array<Data>;
+  probableCases: Array<Data>;
+}
+
+const AgeGroup: React.FunctionComponent<Props> = ({ confirmedCases, probableCases }) => {
+  const totalData = [...confirmedCases, ...probableCases];
   const oneToFour = totalData.filter(a => a['Age group'] === ' 1 to 4  ').length;
   const fiveToNine = totalData.filter(a => a['Age group'] === ' 5 to 9  ').length;
   const lowTeens = totalData.filter(a => a['Age group'] === '10 to 14').length;

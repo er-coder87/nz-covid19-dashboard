@@ -1,9 +1,15 @@
 import * as React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { TitledSection } from '../common/TiledSection';
-import { TotalData } from '../containers/Dashboard';
+import { Data } from '../containers/Dashboard';
 
-const Gender: React.FunctionComponent<TotalData> = ({ totalData }) => {
+interface Props {
+  confirmedCases: Array<Data>;
+  probableCases: Array<Data>;
+}
+
+const Gender: React.FunctionComponent<Props> = ({ confirmedCases, probableCases }) => {
+  const totalData = [...confirmedCases, ...probableCases];
   const numberOfMales = totalData.filter(a => a.Sex === 'Male').length;
   const numberOfFemales = totalData.filter(a => a.Sex === 'Female').length;
   const unknowns = totalData.length - numberOfFemales - numberOfMales;

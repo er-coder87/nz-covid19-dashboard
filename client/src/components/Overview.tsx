@@ -12,16 +12,23 @@ export const formatDateToString = (date: Date) => {
 };
 
 interface Props {
-  totalData: Array<Data>;
+  confirmedCases: Array<Data>;
+  probableCases: Array<Data>;
   updatedDate: string;
 }
 
-export const Overview: React.FunctionComponent<Props> = ({ totalData, updatedDate }) => (
+export const Overview: React.FunctionComponent<Props> = ({
+  confirmedCases,
+  probableCases,
+  updatedDate,
+}) => (
   <ListGroup>
     <ListGroupItem>Date: {getTodayDate()}</ListGroupItem>
-    <ListGroupItem>NZ total cases: {totalData.length}</ListGroupItem>
     <ListGroupItem>
       Last updated date: {formatDateToString(new Date(JSON.parse(updatedDate)))}
     </ListGroupItem>
+    <ListGroupItem>NZ confirmed cases: {confirmedCases.length}</ListGroupItem>
+    <ListGroupItem>NZ probable cases: {probableCases.length}</ListGroupItem>
+    <ListGroupItem>NZ total cases: {confirmedCases.length + probableCases.length}</ListGroupItem>
   </ListGroup>
 );

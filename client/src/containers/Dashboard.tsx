@@ -25,14 +25,6 @@ export interface Data {
   arrivalDate?: string;
 }
 
-export interface TotalData {
-  totalData: Array<Data>;
-}
-
-export interface UpdatedDate {
-  updatedDate: string;
-}
-
 const Dashboard: React.FunctionComponent = () => {
   const [data, setData] = useState([]);
   const [isLoading, setLoading] = useState(true);
@@ -54,7 +46,11 @@ const Dashboard: React.FunctionComponent = () => {
       <div className="d-flex flex-wrap">
         {components.map((Component, index) => (
           <Card key={index} className="p-3 m-1 bg-dark hoverEffect">
-            <Component totalData={data[0]['dataArray']} updatedDate={data[1]['updatedDate']} />
+            <Component
+              confirmedCases={data[0]['confirmedCases']}
+              probableCases={data[1]['probableCases']}
+              updatedDate={data[2]['updatedDate']}
+            />
           </Card>
         ))}
       </div>

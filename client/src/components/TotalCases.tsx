@@ -2,9 +2,15 @@ import * as React from 'react';
 import { Line } from 'react-chartjs-2';
 import { formatDateToString } from './Overview';
 import { TitledSection } from '../common/TiledSection';
-import { TotalData } from '../containers/Dashboard';
+import { Data } from '../containers/Dashboard';
 
-export const TotalCases: React.FunctionComponent<TotalData> = ({ totalData }) => {
+interface Props {
+  confirmedCases: Array<Data>;
+  probableCases: Array<Data>;
+}
+
+export const TotalCases: React.FunctionComponent<Props> = ({ confirmedCases, probableCases }) => {
+  const totalData = [...confirmedCases, ...probableCases];
   const dates = Array.from(new Set(totalData.map(item => item['Date of report'])));
   const dailyRates: { date: Date; number: number; totalNumber: number }[] = [];
 

@@ -1,9 +1,15 @@
 import * as React from 'react';
 import { Bar } from 'react-chartjs-2';
 import { TitledSection } from '../common/TiledSection';
-import { TotalData } from '../containers/Dashboard';
+import { Data } from '../containers/Dashboard';
 
-const Dhb: React.FunctionComponent<TotalData> = ({ totalData }) => {
+interface Props {
+  confirmedCases: Array<Data>;
+  probableCases: Array<Data>;
+}
+
+const Dhb: React.FunctionComponent<Props> = ({ confirmedCases, probableCases }) => {
+  const totalData = [...confirmedCases, ...probableCases];
   const areas = Array.from(new Set(totalData.map(item => item.DHB)));
 
   const infectedAreas: { area: string | undefined; number: number }[] = [];

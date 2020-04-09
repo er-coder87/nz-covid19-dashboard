@@ -42,9 +42,15 @@ let lastUpdatedDate = appStartDate.setDate(appStartDate.getDate() - 1);
 app.get('/api/data', async (req, res) => {
   try {
     const workbook = XLSX.readFile(xlsxName);
-    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-    const dataArray = XLSX.utils.sheet_to_json(worksheet, { range: 3, raw: false });
-    const response = [{ dataArray: dataArray }, { updatedDate: lastUpdatedDate }];
+    const confirmedCasesSheet = workbook.Sheets[workbook.SheetNames[0]];
+    const probableCasesSheet = workbook.Sheets[workbook.SheetNames[1]];
+    const confirmedCases = XLSX.utils.sheet_to_json(confirmedCasesSheet, { range: 3, raw: false });
+    const probableCases = XLSX.utils.sheet_to_json(probableCasesSheet, { range: 3, raw: false });
+    const response = [
+      { confirmedCases: confirmedCases },
+      { probableCases: probableCases },
+      { updatedDate: lastUpdatedDate },
+    ];
     res.json(response);
   } catch (error) {
     console.log(error);

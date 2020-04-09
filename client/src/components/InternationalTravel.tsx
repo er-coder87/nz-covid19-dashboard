@@ -1,9 +1,18 @@
 import * as React from 'react';
 import { TitledSection } from '../common/TiledSection';
 import { Bar } from 'react-chartjs-2';
-import { TotalData } from '../containers/Dashboard';
+import { Data } from '../containers/Dashboard';
 
-export const InternationTravel: React.FunctionComponent<TotalData> = ({ totalData }) => {
+interface Props {
+  confirmedCases: Array<Data>;
+  probableCases: Array<Data>;
+}
+
+export const InternationTravel: React.FunctionComponent<Props> = ({
+  confirmedCases,
+  probableCases,
+}) => {
+  const totalData = [...confirmedCases, ...probableCases];
   const yes = totalData.filter(a => a['International travel'] === 'Yes').length;
   const no = totalData.filter(a => a['International travel'] === 'No').length;
   const unknown = totalData.length - yes - no;
