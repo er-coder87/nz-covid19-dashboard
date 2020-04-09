@@ -60,7 +60,7 @@ const months = [
 let currentXlsxName = 'covid-casedetails-9april2020.xlsx';
 let lastUpdatedDate = new Date(2020, 3, 9);
 const cron = require('node-cron');
-cron.schedule('* * * * *', function () {
+cron.schedule('0 * * * *', function () {
   console.log('Running Cron Job');
   const today = new Date();
   const formattedToday = today.getDate() + months[today.getMonth()] + today.getFullYear();
