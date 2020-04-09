@@ -4,12 +4,12 @@ import { TitledSection } from '../common/TiledSection';
 import { TotalData } from '../containers/Dashboard';
 
 const Dhb: React.FunctionComponent<TotalData> = ({ totalData }) => {
-  const areas = Array.from(new Set(totalData.map(item => item.dhb)));
+  const areas = Array.from(new Set(totalData.map(item => item.DHB)));
 
   const infectedAreas: { area: string | undefined; number: number }[] = [];
 
   areas.forEach(area => {
-    const mapped = totalData.filter(item => item.dhb === area);
+    const mapped = totalData.filter(item => item.DHB === area);
     infectedAreas.push({
       area: area,
       number: mapped.length,

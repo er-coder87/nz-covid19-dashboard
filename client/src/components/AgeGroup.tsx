@@ -4,16 +4,16 @@ import { TitledSection } from '../common/TiledSection';
 import { TotalData } from '../containers/Dashboard';
 
 const AgeGroup: React.FunctionComponent<TotalData> = ({ totalData }) => {
-  const oneToFour = totalData.filter(a => a.ageGroup === ' 1 to 4  ').length;
-  const fiveToNine = totalData.filter(a => a.ageGroup === ' 5 to 9  ').length;
-  const lowTeens = totalData.filter(a => a.ageGroup === '10 to 14').length;
-  const highTeens = totalData.filter(a => a.ageGroup === '15 to 19').length;
-  const twenties = totalData.filter(a => a.ageGroup === '20 to 29').length;
-  const thirtys = totalData.filter(a => a.ageGroup === '30 to 39').length;
-  const fortys = totalData.filter(a => a.ageGroup === '40 to 49').length;
-  const fiftys = totalData.filter(a => a.ageGroup === '50 to 59').length;
-  const sixtys = totalData.filter(a => a.ageGroup === '60 to 69').length;
-  const overSeventys = totalData.filter(a => a.ageGroup === '70+     ').length;
+  const oneToFour = totalData.filter(a => a['Age group'] === ' 1 to 4  ').length;
+  const fiveToNine = totalData.filter(a => a['Age group'] === ' 5 to 9  ').length;
+  const lowTeens = totalData.filter(a => a['Age group'] === '10 to 14').length;
+  const highTeens = totalData.filter(a => a['Age group'] === '15 to 19').length;
+  const twenties = totalData.filter(a => a['Age group'] === '20 to 29').length;
+  const thirtys = totalData.filter(a => a['Age group'] === '30 to 39').length;
+  const fortys = totalData.filter(a => a['Age group'] === '40 to 49').length;
+  const fiftys = totalData.filter(a => a['Age group'] === '50 to 59').length;
+  const sixtys = totalData.filter(a => a['Age group'] === '60 to 69').length;
+  const overSeventys = totalData.filter(a => a['Age group'] === '70+     ').length;
 
   // For a pie chart
   const data = {

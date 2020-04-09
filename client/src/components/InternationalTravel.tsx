@@ -4,8 +4,8 @@ import { Bar } from 'react-chartjs-2';
 import { TotalData } from '../containers/Dashboard';
 
 export const InternationTravel: React.FunctionComponent<TotalData> = ({ totalData }) => {
-  const yes = totalData.filter(a => a.internationalTravel === 'Yes').length;
-  const no = totalData.filter(a => a.internationalTravel === 'No').length;
+  const yes = totalData.filter(a => a['International travel'] === 'Yes').length;
+  const no = totalData.filter(a => a['International travel'] === 'No').length;
   const unknown = totalData.length - yes - no;
 
   const data = {

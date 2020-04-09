@@ -36,27 +36,44 @@ const download = (url, dest, cb) => {
 
 const data = require('./data/data');
 const data_probable = require('./data/data_probable');
-
+const months = [
+  'january',
+  'february',
+  'march',
+  'april',
+  'may',
+  'june',
+  'july',
+  'august',
+  'september',
+  'october',
+  'november',
+  'december',
+];
 app.get('/api/data', async (req, res) => {
   try {
-    const d = new Date();
-    const date = d.getMonth() + 1 + '_' + d.getDate() + '_' + d.getFullYear();
-    const xlsxName = `covid19_${date}.xlsx`;
-    if (!fs.existsSync(xlsxName)) {
-      download(
-        'https://www.health.govt.nz/system/files/documents/pages/covid-casedetails-update-6april.xlsx',
-        xlsxName,
-      );
-    }
-    // TODO - remove first three rows and trim headers
-    //const workbook = XLSX.readFile('covid19_2.xlsx');
-    //let worksheet = workbook.Sheets[workbook.SheetNames[0]];
-    //const totalData = XLSX.utils.sheet_to_json(worksheet, { raw: false });
+    const today = new Date();
+    const todayInXlsxFileFormat = today.getDate() + months[today.getMonth()] + today.getFullYear();
 
-    const dataArray = [...data, ...data_probable];
-    const totalData = [{ dataArray: dataArray }, { updatedDate: '2020-4-6' }];
-    res.json(totalData);
+    // assumption - last updated date is yesterday
+    let lastUpdatedDate = today.setDate(today.getDate() - 1);
+    const xlsxName = `covid-casedetails-${todayInXlsxFileFormat}.xlsx`;
+    if (!fs.existsSync(xlsxName)) {
+      lastUpdatedDate = today;
+      download(`https://www.health.govt.nz/system/files/documents/pages/${xlsxName}`, xlsxName);
+    }
+
+    const dataArray = processXlsx(xlsxName);
+    const response = [{ dataArray: dataArray }, { updatedDate: lastUpdatedDate }];
+    res.json(response);
   } catch (error) {
     console.log(error);
   }
 });
+
+const processXlsx = xlsxName => {
+  const workbook = XLSX.readFile(xlsxName);
+  const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+
+  return XLSX.utils.sheet_to_json(worksheet, { range: 3, raw: false });
+};

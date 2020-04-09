@@ -5,11 +5,11 @@ import { TitledSection } from '../common/TiledSection';
 import { TotalData } from '../containers/Dashboard';
 
 export const TotalCases: React.FunctionComponent<TotalData> = ({ totalData }) => {
-  const dates = Array.from(new Set(totalData.map(item => item.dateOfReport)));
+  const dates = Array.from(new Set(totalData.map(item => item['Date of report'])));
   const dailyRates: { date: Date; number: number; totalNumber: number }[] = [];
 
   dates.reverse().forEach((date, index) => {
-    const dailyRate = totalData.filter(item => item.dateOfReport === date);
+    const dailyRate = totalData.filter(item => item['Date of report'] === date);
     if (index === 0) {
       dailyRates.push({
         date: new Date(date || ''),

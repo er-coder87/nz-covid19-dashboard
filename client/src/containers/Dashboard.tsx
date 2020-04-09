@@ -15,11 +15,11 @@ const axiosInstance = axios.create({
 const components: Array<any> = [Overview, Gender, AgeGroup, Dhb, TotalCases, InternationTravel];
 
 export interface Data {
-  dateOfReport?: string;
-  sex?: string;
-  ageGroup: string;
-  dhb?: string;
-  internationalTravel?: string;
+  'Date of report'?: string;
+  Sex?: string;
+  'Age group': string;
+  DHB?: string;
+  'International travel'?: string;
   lastCountryBeforeReturn?: string;
   flightNumber?: string;
   arrivalDate?: string;

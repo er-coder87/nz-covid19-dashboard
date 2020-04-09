@@ -20,6 +20,8 @@ export const Overview: React.FunctionComponent<Props> = ({ totalData, updatedDat
   <ListGroup>
     <ListGroupItem>Date: {getTodayDate()}</ListGroupItem>
     <ListGroupItem>NZ total cases: {totalData.length}</ListGroupItem>
-    <ListGroupItem>Last updated date: {updatedDate}</ListGroupItem>
+    <ListGroupItem>
+      Last updated date: {formatDateToString(new Date(JSON.parse(updatedDate)))}
+    </ListGroupItem>
   </ListGroup>
 );

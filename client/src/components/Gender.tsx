@@ -4,8 +4,8 @@ import { TitledSection } from '../common/TiledSection';
 import { TotalData } from '../containers/Dashboard';
 
 const Gender: React.FunctionComponent<TotalData> = ({ totalData }) => {
-  const numberOfMales = totalData.filter(a => a.sex === 'Male').length;
-  const numberOfFemales = totalData.filter(a => a.sex === 'Female').length;
+  const numberOfMales = totalData.filter(a => a.Sex === 'Male').length;
+  const numberOfFemales = totalData.filter(a => a.Sex === 'Female').length;
   const unknowns = totalData.length - numberOfFemales - numberOfMales;
   // For a pie chart
   const data = {
