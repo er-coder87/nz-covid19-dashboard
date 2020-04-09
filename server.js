@@ -34,8 +34,23 @@ const download = (url, dest, cb) => {
   });
 };
 
-const data = require('./data/data');
-const data_probable = require('./data/data_probable');
+let xlsxName = `covid-casedetails-9april2020.xlsx`;
+// assume lastUpdatedDate is yesterday
+const appStartDate = new Date();
+let lastUpdatedDate = appStartDate.setDate(appStartDate.getDate() - 1);
+
+app.get('/api/data', async (req, res) => {
+  try {
+    const workbook = XLSX.readFile(xlsxName);
+    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+    const dataArray = XLSX.utils.sheet_to_json(worksheet, { range: 3, raw: false });
+    const response = [{ dataArray: dataArray }, { updatedDate: lastUpdatedDate }];
+    res.json(response);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 const months = [
   'january',
   'february',
@@ -50,30 +65,25 @@ const months = [
   'november',
   'december',
 ];
-app.get('/api/data', async (req, res) => {
-  try {
+// schedule tasks to be run on the server
+const cron = require('node-cron');
+// schedule tasks to be run on the server
+cron.schedule('0 * * * *', function () {
+  console.log('Running Cron Job');
+  if (!fs.existsSync(xlsxName)) {
+    console.log(xlsxName, 'file does not exist');
+
     const today = new Date();
-    const todayInXlsxFileFormat = today.getDate() + months[today.getMonth()] + today.getFullYear();
+    const formattedToday = today.getDate() + months[today.getMonth()] + today.getFullYear();
+    console.log(formattedToday);
+    download(
+      `https://www.health.govt.nz/system/files/documents/pages/covid-casedetails-${formattedToday}.xlsx`,
+      xlsxName,
+    );
+    lastUpdatedDate = today;
 
-    // assumption - last updated date is yesterday
-    let lastUpdatedDate = today.setDate(today.getDate() - 1);
-    const xlsxName = `covid-casedetails-${todayInXlsxFileFormat}.xlsx`;
-    if (!fs.existsSync(xlsxName)) {
-      lastUpdatedDate = today;
-      download(`https://www.health.govt.nz/system/files/documents/pages/${xlsxName}`, xlsxName);
-    }
-
-    const dataArray = processXlsx(xlsxName);
-    const response = [{ dataArray: dataArray }, { updatedDate: lastUpdatedDate }];
-    res.json(response);
-  } catch (error) {
-    console.log(error);
+    console.log(xlsxName, 'finish downloading');
+  } else {
+    console.log('file already exists');
   }
 });
-
-const processXlsx = xlsxName => {
-  const workbook = XLSX.readFile(xlsxName);
-  const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-
-  return XLSX.utils.sheet_to_json(worksheet, { range: 3, raw: false });
-};
