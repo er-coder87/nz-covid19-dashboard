@@ -25,22 +25,22 @@ app.listen(port, () => {
 });
 
 const current_xlsx = 'current.xlsx';
-// assume lastUpdatedDate is yesterday
-const appStartDate = new Date();
-let lastUpdatedDate = appStartDate.setDate(appStartDate.getDate() - 1);
-
+let confirmedCases;
+let probableCases;
 app.get('/api/data', async (req, res) => {
   try {
-    const workbook = XLSX.readFile(current_xlsx);
-    const confirmedCasesSheet = workbook.Sheets[workbook.SheetNames[0]];
-    const probableCasesSheet = workbook.Sheets[workbook.SheetNames[1]];
-    const confirmedCases = XLSX.utils.sheet_to_json(confirmedCasesSheet, { range: 3, raw: false });
-    const probableCases = XLSX.utils.sheet_to_json(probableCasesSheet, { range: 3, raw: false });
-    const response = [
-      { confirmedCases: confirmedCases },
-      { probableCases: probableCases },
-      { updatedDate: lastUpdatedDate },
-    ];
+    if (confirmedCases && probableCases) {
+      console.log('confirmedCases and probableCases have values');
+    } else {
+      console.log('confirmedCases and probableCases do not have values');
+      const workbook = XLSX.readFile(current_xlsx);
+      const confirmedCasesSheet = workbook.Sheets[workbook.SheetNames[0]];
+      const probableCasesSheet = workbook.Sheets[workbook.SheetNames[1]];
+      confirmedCases = XLSX.utils.sheet_to_json(confirmedCasesSheet, { range: 3, raw: false });
+      probableCases = XLSX.utils.sheet_to_json(probableCasesSheet, { range: 3, raw: false });
+    }
+
+    const response = [{ confirmedCases: confirmedCases }, { probableCases: probableCases }];
     res.json(response);
   } catch (error) {
     console.log(error);
@@ -86,9 +86,11 @@ const compareAndSave = () => {
     console.log('New file detected');
     fs.renameSync(downloaded_xlsx, current_xlsx);
 
-    const today = new Date();
-    lastUpdatedDate = today;
-    currentXlsxName = current_xlsx;
+    const workbook = XLSX.readFile(current_xlsx);
+    const confirmedCasesSheet = workbook.Sheets[workbook.SheetNames[0]];
+    const probableCasesSheet = workbook.Sheets[workbook.SheetNames[1]];
+    confirmedCases = XLSX.utils.sheet_to_json(confirmedCasesSheet, { range: 3, raw: false });
+    probableCases = XLSX.utils.sheet_to_json(probableCasesSheet, { range: 3, raw: false });
   }
 };
 

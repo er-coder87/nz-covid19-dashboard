@@ -31,10 +31,14 @@ const Dashboard: React.FunctionComponent = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      await axiosInstance.get('/api/data').then(data => {
-        setData(data.data);
-        setLoading(false);
-      });
+      try {
+        await axiosInstance.get('/api/data').then(data => {
+          setData(data.data);
+          setLoading(false);
+        });
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchData();
   }, []);
@@ -49,7 +53,6 @@ const Dashboard: React.FunctionComponent = () => {
             <Component
               confirmedCases={data[0]['confirmedCases']}
               probableCases={data[1]['probableCases']}
-              updatedDate={data[2]['updatedDate']}
             />
           </Card>
         ))}
