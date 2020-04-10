@@ -9,10 +9,19 @@ import { TotalCases } from '../components/TotalCases';
 import { InternationTravel } from '../components/InternationalTravel';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { LastCountryVisted } from '../components/LastCountryVisited';
 const axiosInstance = axios.create({
   baseURL: process.env.NODE_ENV === 'production' ? process.env.HOSTNAME : 'http://localhost:5000',
 });
-const components: Array<any> = [Overview, Gender, AgeGroup, Dhb, TotalCases, InternationTravel];
+const components: Array<any> = [
+  Overview,
+  Gender,
+  AgeGroup,
+  Dhb,
+  TotalCases,
+  InternationTravel,
+  LastCountryVisted,
+];
 
 export interface Data {
   'Date of report'?: string;
@@ -20,7 +29,7 @@ export interface Data {
   'Age group': string;
   DHB?: string;
   'International travel'?: string;
-  lastCountryBeforeReturn?: string;
+  'Last country before return': string;
   flightNumber?: string;
   arrivalDate?: string;
 }
