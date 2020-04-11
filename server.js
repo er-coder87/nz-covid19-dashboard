@@ -68,8 +68,10 @@ cron.schedule('0 */1 * * *', function () {
   const today = new Date();
   const formattedToday = today.getDate() + months[today.getMonth()] + today.getFullYear();
   const downloaded_xlsx = 'downloaded.xlsx';
+
+  //fix hardcoded date
   download(
-    `https://www.health.govt.nz/system/files/documents/pages/covid-casedetails-${formattedToday}.xlsx`,
+    `https://www.health.govt.nz/system/files/documents/pages/covid-casedetails-10april2020.xlsx`,
     downloaded_xlsx,
     compareAndSave,
   );
