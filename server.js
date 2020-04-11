@@ -12,18 +12,6 @@ const cors = require('cors');
 app.use(cors());
 app.use(express.json());
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/build'));
-
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-  });
-}
-
-app.listen(port, () => {
-  console.log(`server has started on port ${port}`);
-});
-
 const current_xlsx = 'current.xlsx';
 let confirmedCases;
 let probableCases;
@@ -74,7 +62,6 @@ const months = [
 
 const cron = require('node-cron');
 const axios = require('axios');
-
 cron.schedule('0 */1 * * *', function () {
   console.log('Running Cron Job');
   const today = new Date();
@@ -111,7 +98,6 @@ const compareAndSave = () => {
     probableCases = XLSX.utils.sheet_to_json(probableCasesSheet, { range: 3, raw: false });
   }
 };
-
 const download = (url, dest, cb) => {
   var file = fs.createWriteStream(dest);
   https.get(url, function (response) {
@@ -122,3 +108,15 @@ const download = (url, dest, cb) => {
     });
   });
 };
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+
+app.listen(port, () => {
+  console.log(`server has started on port ${port}`);
+});
