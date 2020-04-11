@@ -63,18 +63,24 @@ const months = [
 ];
 
 const cron = require('node-cron');
+const axios = require('axios');
+
 cron.schedule('0 */1 * * *', function () {
   console.log('Running Cron Job');
   const today = new Date();
-  const formattedToday = today.getDate() + months[today.getMonth()] + today.getFullYear();
-  const downloaded_xlsx = 'downloaded.xlsx';
-
-  //fix hardcoded date
-  download(
-    `https://www.health.govt.nz/system/files/documents/pages/covid-casedetails-10april2020.xlsx`,
-    downloaded_xlsx,
-    compareAndSave,
-  );
+  const formattedToday =
+    today.getDate() + '-' + months[today.getMonth()] + '-' + today.getFullYear();
+  const downloadLink = `https://www.health.govt.nz/system/files/documents/pages/case-list-${formattedToday}-for-web.xlsx`;
+  axios
+    .get(downloadLink)
+    .then(response => {
+      console.log(downloadLink);
+      const downloaded_xlsx = 'downloaded.xlsx';
+      download(downloadLink, downloaded_xlsx, compareAndSave);
+    })
+    .catch(error => {
+      console.log(error.response.status, 'file does not exist yet');
+    });
 });
 
 const compareAndSave = () => {
