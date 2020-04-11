@@ -15,7 +15,7 @@ app.use(express.json());
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 
-  app.get('/', (req, res) => {
+  app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
   });
 }
@@ -29,10 +29,10 @@ let confirmedCases;
 let probableCases;
 app.get('/api/data', async (req, res) => {
   try {
+    logIpAddress(req);
+
     if (confirmedCases && probableCases) {
-      console.log('confirmedCases and probableCases have values');
     } else {
-      console.log('confirmedCases and probableCases do not have values');
       const workbook = XLSX.readFile(current_xlsx);
       const confirmedCasesSheet = workbook.Sheets[workbook.SheetNames[0]];
       const probableCasesSheet = workbook.Sheets[workbook.SheetNames[1]];
@@ -46,6 +46,16 @@ app.get('/api/data', async (req, res) => {
     console.log(error);
   }
 });
+
+const logIpAddress = req => {
+  const ip =
+    req.headers['x-forwarded-for'] ||
+    req.connection.remoteAddress ||
+    req.socket.remoteAddress ||
+    (req.connection.socket ? req.connection.socket.remoteAddress : null);
+
+  console.log(`Request is made from ${ip}`);
+};
 
 const months = [
   'january',
