@@ -12,7 +12,27 @@ const cors = require('cors');
 app.use(cors());
 app.use(express.json());
 
+const months = [
+  'january',
+  'february',
+  'march',
+  'april',
+  'may',
+  'june',
+  'july',
+  'august',
+  'september',
+  'october',
+  'november',
+  'december',
+];
+
 const current_xlsx = 'current.xlsx';
+const download_xlsx = 'download.xlsx';
+const today = new Date();
+const formattedToday = today.getDate() + '-' + months[today.getMonth()] + '-' + today.getFullYear();
+const downloadLink = `https://www.health.govt.nz/system/files/documents/pages/case-list-${formattedToday}-for-web.xlsx`;
+
 let confirmedCases;
 let probableCases;
 app.get('/api/data', async (req, res) => {
@@ -20,12 +40,10 @@ app.get('/api/data', async (req, res) => {
     logIpAddress(req);
 
     if (confirmedCases && probableCases) {
+      console.log('data is loaded');
     } else {
-      const workbook = XLSX.readFile(current_xlsx);
-      const confirmedCasesSheet = workbook.Sheets[workbook.SheetNames[0]];
-      const probableCasesSheet = workbook.Sheets[workbook.SheetNames[1]];
-      confirmedCases = XLSX.utils.sheet_to_json(confirmedCasesSheet, { range: 3, raw: false });
-      probableCases = XLSX.utils.sheet_to_json(probableCasesSheet, { range: 3, raw: false });
+      console.log('data is not loaded in-memory, hydrating data');
+      download();
     }
 
     const response = [{ confirmedCases: confirmedCases }, { probableCases: probableCases }];
@@ -45,68 +63,47 @@ const logIpAddress = req => {
   console.log(`Request is made from ${ip}`);
 };
 
-const months = [
-  'january',
-  'february',
-  'march',
-  'april',
-  'may',
-  'june',
-  'july',
-  'august',
-  'september',
-  'october',
-  'november',
-  'december',
-];
-
 const cron = require('node-cron');
 const axios = require('axios');
 cron.schedule('0 */1 * * *', function () {
   console.log('Running Cron Job');
-  const today = new Date();
-  const formattedToday =
-    today.getDate() + '-' + months[today.getMonth()] + '-' + today.getFullYear();
-  const downloadLink = `https://www.health.govt.nz/system/files/documents/pages/case-list-${formattedToday}-for-web.xlsx`;
   axios
     .get(downloadLink)
     .then(response => {
-      console.log(downloadLink);
-      const downloaded_xlsx = 'downloaded.xlsx';
-      download(downloadLink, downloaded_xlsx, compareAndSave);
+      download();
     })
     .catch(error => {
-      console.log(error.response.status, 'file does not exist yet');
+      console.log('faild to download');
     });
 });
 
+const download = () => {
+  var file = fs.createWriteStream(download_xlsx);
+  https.get(downloadLink, function (response) {
+    response.pipe(file);
+    file.on('finish', function () {
+      console.log('finish downloading');
+      file.close(compareAndSave);
+    });
+  });
+};
+
 const compareAndSave = () => {
-  const downloaded_xlsx = 'downloaded.xlsx';
   const currentFileBuffer = fs.readFileSync(current_xlsx);
-  const downloadedFileBuffer = fs.readFileSync(downloaded_xlsx);
+  const downloadedFileBuffer = fs.readFileSync(download_xlsx);
 
   if (currentFileBuffer.equals(downloadedFileBuffer)) {
     console.log(`File already exists`);
   } else {
-    console.log('New file detected');
-    fs.renameSync(downloaded_xlsx, current_xlsx);
-
-    const workbook = XLSX.readFile(current_xlsx);
-    const confirmedCasesSheet = workbook.Sheets[workbook.SheetNames[0]];
-    const probableCasesSheet = workbook.Sheets[workbook.SheetNames[1]];
-    confirmedCases = XLSX.utils.sheet_to_json(confirmedCasesSheet, { range: 3, raw: false });
-    probableCases = XLSX.utils.sheet_to_json(probableCasesSheet, { range: 3, raw: false });
+    console.log('New file detected, updating current file');
+    fs.renameSync(download_xlsx, current_xlsx);
   }
-};
-const download = (url, dest, cb) => {
-  var file = fs.createWriteStream(dest);
-  https.get(url, function (response) {
-    response.pipe(file);
-    file.on('finish', function () {
-      console.log('finish downloading');
-      file.close(cb);
-    });
-  });
+
+  const workbook = XLSX.readFile(current_xlsx);
+  const confirmedCasesSheet = workbook.Sheets[workbook.SheetNames[0]];
+  const probableCasesSheet = workbook.Sheets[workbook.SheetNames[1]];
+  confirmedCases = XLSX.utils.sheet_to_json(confirmedCasesSheet, { range: 3, raw: false });
+  probableCases = XLSX.utils.sheet_to_json(probableCasesSheet, { range: 3, raw: false });
 };
 
 if (process.env.NODE_ENV === 'production') {
