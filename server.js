@@ -30,8 +30,10 @@ const months = [
 const current_xlsx = 'current.xlsx';
 const download_xlsx = 'download.xlsx';
 const today = new Date();
-const formattedToday = today.getDate() + '-' + months[today.getMonth()] + '-' + today.getFullYear();
-const downloadLink = `https://www.health.govt.nz/system/files/documents/pages/case-list-${formattedToday}-for-web.xlsx`;
+const formattedToday = today.getDate() + months[today.getMonth()] + today.getFullYear();
+
+//https://www.health.govt.nz/system/files/documents/pages/covid-case-list-13april2020.xlsx
+const downloadLink = `https://www.health.govt.nz/system/files/documents/pages/covid-case-list-${formattedToday}.xlsx`;
 
 let confirmedCases;
 let probableCases;
