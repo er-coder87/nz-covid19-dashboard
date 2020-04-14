@@ -75,25 +75,13 @@ cron.schedule('0 */1 * * *', function () {
       downloaddownloadLink;
     })
     .catch(error => {
-      console.log('fall back to download link2');
-      //fall back to other link https://www.health.govt.nz/system/files/documents/pages/covid-caselist-14april.xlsx
-
-      const formattedToday = today.getDate() + months[today.getMonth()];
-      const downloadLink2 = `https://www.health.govt.nz/system/files/documents/pages/covid-caselist-${formattedToday}.xlsx`;
-      axios
-        .get(downloadLink2)
-        .then(response => {
-          download(downloadLink2);
-        })
-        .catch(error => {
-          console.log('failed');
-        });
+      console.log('faild to download');
     });
 });
 
-const download = link => {
+const download = () => {
   var file = fs.createWriteStream(download_xlsx);
-  https.get(link, function (response) {
+  https.get(downloadLink, function (response) {
     response.pipe(file);
     file.on('finish', function () {
       console.log('finish downloading');
