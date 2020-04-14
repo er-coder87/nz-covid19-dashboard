@@ -67,12 +67,12 @@ const logIpAddress = req => {
 
 const cron = require('node-cron');
 const axios = require('axios');
-cron.schedule('* * * * *', function () {
+cron.schedule('0 */1 * * *', function () {
   console.log('Running Cron Job');
   axios
     .get(downloadLink)
     .then(response => {
-      download();
+      downloaddownloadLink;
     })
     .catch(error => {
       console.log('fall back to download link2');
@@ -80,15 +80,20 @@ cron.schedule('* * * * *', function () {
 
       const formattedToday = today.getDate() + months[today.getMonth()];
       const downloadLink2 = `https://www.health.govt.nz/system/files/documents/pages/covid-caselist-${formattedToday}.xlsx`;
-      axios.get(downloadLink2).then(response => {
-        download();
-      });
+      axios
+        .get(downloadLink2)
+        .then(response => {
+          download(downloadLink2);
+        })
+        .catch(error => {
+          console.log('failed');
+        });
     });
 });
 
-const download = () => {
+const download = link => {
   var file = fs.createWriteStream(download_xlsx);
-  https.get(downloadLink, function (response) {
+  https.get(link, function (response) {
     response.pipe(file);
     file.on('finish', function () {
       console.log('finish downloading');
