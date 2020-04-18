@@ -36,7 +36,7 @@ const formattedToday = today.getDate() + months[today.getMonth()]; // + today.ge
 //`https://www.health.govt.nz/system/files/documents/pages/covid-case-list-${formattedToday}.xlsx`
 //https://www.health.govt.nz/system/files/documents/pages/covid-caselist-14april.xlsx
 //https://www.health.govt.nz/system/files/documents/pages/covid-case_list-16-april.xlsx
-const downloadLink = `https://www.health.govt.nz/system/files/documents/pages/covid-case_list-16-april.xlsx`;
+const downloadLink = `https://www.health.govt.nz/system/files/documents/pages/web-covid-confprob_20200418-2.xlsx`;
 
 let confirmedCases;
 let probableCases;
@@ -48,7 +48,7 @@ app.get('/api/data', async (req, res) => {
       console.log('data is loaded');
     } else {
       console.log('data is not loaded in-memory, hydrating data');
-      download();
+      //download();
     }
 
     const response = [{ confirmedCases: confirmedCases }, { probableCases: probableCases }];
