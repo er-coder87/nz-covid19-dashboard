@@ -28,7 +28,7 @@ export interface Data {
   Sex?: string;
   'Age group': string;
   DHB?: string;
-  'International travel'?: string;
+  'Overseas travel'?: string;
   'Last country before return': string;
   flightNumber?: string;
   arrivalDate?: string;

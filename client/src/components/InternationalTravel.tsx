@@ -13,8 +13,8 @@ export const InternationTravel: React.FunctionComponent<Props> = ({
   probableCases,
 }) => {
   const totalData = [...confirmedCases, ...probableCases];
-  const yes = totalData.filter(a => a['International travel'] === 'Yes').length;
-  const no = totalData.filter(a => a['International travel'] === 'No').length;
+  const yes = totalData.filter(a => a['Overseas travel'] === 'Yes').length;
+  const no = totalData.filter(a => a['Overseas travel'] === 'No').length;
   const unknown = totalData.length - yes - no;
 
   const data = {
