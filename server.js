@@ -48,7 +48,7 @@ app.get('/api/data', async (req, res) => {
       console.log('data is loaded');
     } else {
       console.log('data is not loaded in-memory, hydrating data');
-      //download();
+      download();
     }
 
     const response = [{ confirmedCases: confirmedCases }, { probableCases: probableCases }];
@@ -75,7 +75,7 @@ cron.schedule('0 */1 * * *', function () {
   axios
     .get(downloadLink)
     .then(response => {
-      downloaddownloadLink;
+      download();
     })
     .catch(error => {
       console.log('faild to download');
