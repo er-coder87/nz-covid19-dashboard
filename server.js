@@ -36,6 +36,7 @@ const formattedToday = today.getDate() + months[today.getMonth()]; // + today.ge
 //`https://www.health.govt.nz/system/files/documents/pages/covid-case-list-${formattedToday}.xlsx`
 //https://www.health.govt.nz/system/files/documents/pages/covid-caselist-14april.xlsx
 //https://www.health.govt.nz/system/files/documents/pages/covid-case_list-16-april.xlsx
+//https://www.health.govt.nz/system/files/documents/pages/covid-caselist-20april.xlsx
 const downloadLink = `https://www.health.govt.nz/system/files/documents/pages/web-covid-confprob_20200418-2.xlsx`;
 
 let confirmedCases;
