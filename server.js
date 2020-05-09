@@ -32,26 +32,24 @@ const download_xlsx = 'download.xlsx';
 const today = new Date();
 const formattedToday = today.getDate() + months[today.getMonth()]; // + today.getFullYear();
 
-//https://www.health.govt.nz/system/files/documents/pages/covid-case-list-13april2020.xlsx
-//`https://www.health.govt.nz/system/files/documents/pages/covid-case-list-${formattedToday}.xlsx`
-//https://www.health.govt.nz/system/files/documents/pages/covid-caselist-14april.xlsx
-//https://www.health.govt.nz/system/files/documents/pages/covid-case_list-16-april.xlsx
-//https://www.health.govt.nz/system/files/documents/pages/covid-caselist-20april.xlsx
-//https://www.health.govt.nz/system/files/documents/pages/covid-caselist-23april.xlsx
 const downloadLink = `https://www.health.govt.nz/system/files/documents/pages/covid-caselist-${formattedToday}.xlsx`;
 
 let confirmedCases;
 let probableCases;
 app.get('/api/data', async (req, res) => {
   try {
-    logIpAddress(req);
+    // if (confirmedCases && probableCases) {
+    //   console.log('data is loaded');
+    // } else {
+    //   console.log('data is not loaded in-memory, hydrating data');
+    //   // download();
+    // }
 
-    if (confirmedCases && probableCases) {
-      console.log('data is loaded');
-    } else {
-      console.log('data is not loaded in-memory, hydrating data');
-      download();
-    }
+    const workbook = XLSX.readFile(current_xlsx);
+    const confirmedCasesSheet = workbook.Sheets[workbook.SheetNames[0]];
+    const probableCasesSheet = workbook.Sheets[workbook.SheetNames[1]];
+    confirmedCases = XLSX.utils.sheet_to_json(confirmedCasesSheet, { range: 3, raw: false });
+    probableCases = XLSX.utils.sheet_to_json(probableCasesSheet, { range: 3, raw: false });
 
     const response = [{ confirmedCases: confirmedCases }, { probableCases: probableCases }];
     res.json(response);
@@ -60,29 +58,20 @@ app.get('/api/data', async (req, res) => {
   }
 });
 
-const logIpAddress = req => {
-  const ip =
-    req.headers['x-forwarded-for'] ||
-    req.connection.remoteAddress ||
-    req.socket.remoteAddress ||
-    (req.connection.socket ? req.connection.socket.remoteAddress : null);
-
-  console.log(`Request is made from ${ip}`);
-};
-
-const cron = require('node-cron');
-const axios = require('axios');
-cron.schedule('0 */1 * * *', function () {
-  console.log('Running Cron Job');
-  axios
-    .get(downloadLink)
-    .then(response => {
-      download();
-    })
-    .catch(error => {
-      console.log('faild to download');
-    });
-});
+// Disable cron as excel file name is randomly generated
+// const cron = require('node-cron');
+// const axios = require('axios');
+// cron.schedule('0 */1 * * *', function () {
+//   console.log('Running Cron Job');
+//   axios
+//     .get(downloadLink)
+//     .then(response => {
+//       download();
+//     })
+//     .catch(error => {
+//       console.log('faild to download');
+//     });
+// });
 
 const download = () => {
   var file = fs.createWriteStream(download_xlsx);
